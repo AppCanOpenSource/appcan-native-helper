@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html class="um landscape min-width-240px min-width-320px min-width-480px min-width-768px min-width-1024px">
+    <head>
+        <title></title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <link rel="stylesheet" href="../../../css/fonts/font-awesome.min.css">
+        <link rel="stylesheet" href="../../../css/ui-box.css">
+        <link rel="stylesheet" href="../../../css/ui-base.css">
+        <link rel="stylesheet" href="../../../css/ui-color.css">
+        <link rel="stylesheet" href="../../../css/appcan.icon.css">
+        <link rel="stylesheet" href="../../../css/appcan.control.css">
+        <link rel="stylesheet" href="../../../css/my.css">
+    </head>
+    <body class="um-vp bc-bg" ontouchstart>
+        <div id="dot">
+            <img src="../../../css/res/common/btn-act.png"/>
+            <div class="menu ub">
+                <div class="play ub-f1">
+                    演示
+                </div><div class="line lineone"></div>
+                <div class="source ub-f1">
+                    源码
+                </div><div class="line linetwo"></div>
+                <div class="return ub-f1">
+                    返回
+                </div>
+                <div class="triangle-blue"></div>
+            </div>
+        </div>
+        <div id="listview"  class="ubt bc-border sc-bg"></div>
+
+    </body>
+
+    <script src="../../../js/jquery.1.7.2.min.js"></script>
+    <script src="../../../js/jquery.event.ue.js.js"></script>
+    <script src="../../../js/jquery.udraggable.js"></script>
+    <script>
+        var jq = $.noConflict();
+    </script>
+    <script src="../../../js/appcan.js"></script>
+    <script src="../../../js/appcan.control.js"></script>
+    <script src="../../../js/appcan.listview.js"></script>
+    <script src="../../../js/my.js"></script>
+    </body>
+    <script>
+        appcan.ready(function() {
+            appcan.locStorage.remove("index");
+        });
+
+        var lv = appcan.listview({
+            selector : "#listview",
+            type : "thinLine",
+            hasIcon : false,
+            hasAngle : true,
+            hasSubTitle : true,
+            multiLine : 1,
+        });
+        lv.set([{
+            title : "open1",
+            subTitle : "创建纯数字键盘,不可切换",
+            id : "1"
+        }, {
+            title : "open2",
+            subTitle : "创建数字、字母、符号可切换键盘",
+            id : "2"
+        }, {
+            title : "close",
+            subTitle : "销毁带安全键盘的输入框",
+            id : "3"
+        }, {
+            title : "getContent",
+            subTitle : "获取输入框中的内容",
+            id : "4"
+        }])
+        lv.on("click", function(ele, obj, curEle) {
+            switch(obj.id) {
+            case "1":
+                open1();
+                break;
+            case "2":
+                open2();
+                break;
+            case "3":
+                closeSecurityKeyboard();
+                break;
+            case "4":
+                getContent();
+                break;
+            }
+        })
+        // var commonCallback = function(data) {
+        // alert("commonCallBack:" + JSON.stringify(data));
+        // };
+        var divTop = document.getElementById("listview").offsetHeight + 200;
+        function open1() {
+            var params = {
+                id : "1",
+                x : 0,
+                y : divTop,
+                width : 800,
+                height : 150,
+                keyboardType : 0,
+                keyboardDescription : "正益移动安全输入"
+            };
+            var data = JSON.stringify(params);
+            uexSecurityKeyboard.open(data);
+        }
+
+        function open2() {
+            var params = {
+                id : "2",
+                x : 0,
+                y : divTop,
+                width : 800,
+                height : 150,
+                keyboardType : 1,
+                keyboardDescription : "正益移动安全输入"
+            };
+            var data = JSON.stringify(params);
+            uexSecurityKeyboard.open(data);
+
+        }
+
+        function closeSecurityKeyboard() {
+            uexSecurityKeyboard.close();
+        }
+
+        function getContent() {
+            var info = uexSecurityKeyboard.getContent();
+            alert(JSON.stringify(info));
+        }
+
+    </script>
+</html>

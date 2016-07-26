@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html class="um landscape min-width-240px min-width-320px min-width-480px min-width-768px min-width-1024px">
+    <head>
+        <title></title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <link rel="stylesheet" href="../../../css/fonts/font-awesome.min.css">
+        <link rel="stylesheet" href="../../../css/ui-box.css">
+        <link rel="stylesheet" href="../../../css/ui-base.css">
+        <link rel="stylesheet" href="../../../css/ui-color.css">
+        <link rel="stylesheet" href="../../../css/appcan.icon.css">
+        <link rel="stylesheet" href="../../../css/appcan.control.css">
+        <link rel="stylesheet" href="../../../css/my.css">
+    </head>
+    <body class="um-vp bc-bg" ontouchstart>
+        <div id="dot">
+            <img src="../../../css/res/common/btn-act.png"/>
+            <div class="menu ub">
+                <div class="play ub-f1">
+                    演示
+                </div><div class="line lineone"></div>
+                <div class="source ub-f1">
+                    源码
+                </div><div class="line linetwo"></div>
+                <div class="return ub-f1">
+                    返回
+                </div>
+                <div class="triangle-blue"></div>
+            </div>
+        </div>
+        <div id="listview"  class="ubt bc-border sc-bg"></div>
+        <div id="test"  class=""></div>
+    </body>
+
+    <script src="../../../js/jquery.1.7.2.min.js"></script>
+    <script src="../../../js/jquery.event.ue.js.js"></script>
+    <script src="../../../js/jquery.udraggable.js"></script>
+    <script>
+        var jq = $.noConflict();
+    </script>
+    <script src="../../../js/appcan.js"></script>
+    <script src="../../../js/appcan.control.js"></script>
+    <script src="../../../js/appcan.listview.js"></script>
+    <script src="../../../js/my.js"></script>
+    </body>
+    <script>
+        appcan.ready(function() {
+            
+        });
+
+        var lv = appcan.listview({
+            selector : "#listview",
+            type : "thinLine",
+            hasIcon : false,
+            hasAngle : true,
+            hasSubTitle : true,
+            multiLine : 1,
+        });
+        lv.set([{
+            title : "init",
+            subTitle : "初始化接口(无回调)",
+        }, {
+            title : "scanDevice",
+            subTitle : "扫描蓝牙设备",
+        }, {
+            title : "stopScanDevice",
+            subTitle : "停止扫描设备",
+        }, {
+            title : "connect",
+            subTitle : "连接指定蓝牙设备",
+        }, {
+            title : "disconnect",
+            subTitle : "断开蓝牙连接",
+        }, {
+            title : "searchForCharacteristic",
+            subTitle : "从指定service中搜索characteristic",
+        }, {
+            title : "searchForDescriptor",
+            subTitle : "从指定characteristic中搜索descriptor",
+        }, {
+            title : "readCharacteristic",
+            subTitle : "读取Characteristic",
+        }, {
+            title : "writeCharacteristic",
+            subTitle : "写入数据到Characteristic",
+        }, {
+            title : "readDescriptor",
+            subTitle : "读取Descriptor",
+        }, {
+            title : "writeDescriptor",
+            subTitle : "写入数据到Descriptor",
+        }, {
+            title : "setCharacteristicNotification",
+            subTitle : "监听某一个Characteristic",
+        }, {
+            title : "readRemoteRssi",
+            subTitle : "读取rssi",
+        }])
+        lv.on("click", function(ele, obj, curEle) {
+            var name = obj.title;
+            eval(name + "()")
+        })
+        function init() {
+            var params = {
+            };
+            var data = JSON.stringify(params);
+            uexBluetoothLE.init(data);
+        }
+
+        function connect() {
+            var params = {
+                address : "53:9e:06:7e:2e:9d"
+            };
+            var data = JSON.stringify(params);
+            uexBluetoothLE.connect(data);
+        }
+
+        function disconnect() {
+            var params = {
+            };
+            var data = JSON.stringify(params);
+            uexBluetoothLE.disconnect(data);
+        }
+
+        function scanDevice() {
+            uexBluetoothLE.scanDevice();
+        }
+
+        function stopScanDevice() {
+            var params = {
+            };
+            var data = JSON.stringify(params);
+            uexBluetoothLE.stopScanDevice(data);
+        }
+
+        function writeCharacteristic() {
+            var params = {
+            };
+            var data = JSON.stringify(params);
+            uexBluetoothLE.writeCharacteristic(data);
+        }
+
+        function readCharacteristic() {
+            var params = {
+            };
+            var data = JSON.stringify(params);
+            uexBluetoothLE.readCharacteristic(data);
+        }
+
+        function searchForCharacteristic() {
+            var params = {
+            };
+            var data = JSON.stringify(params);
+            uexBluetoothLE.searchForCharacteristic(data);
+        }
+
+        function searchForDescriptor() {
+            var params = {
+            };
+            var data = JSON.stringify(params);
+            uexBluetoothLE.searchForDescriptor(data);
+        }
+
+        function readDescriptor() {
+            var params = {
+            };
+            var data = JSON.stringify(params);
+            uexBluetoothLE.readDescriptor(data);
+        }
+
+        function writeDescriptor() {
+            var params = {
+            };
+            var data = JSON.stringify(params);
+            uexBluetoothLE.writeDescriptor(data);
+        }
+    </script>
+</html>

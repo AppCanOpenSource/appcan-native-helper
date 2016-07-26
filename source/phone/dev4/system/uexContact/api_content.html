@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html class="um landscape min-width-240px min-width-320px min-width-480px min-width-768px min-width-1024px">
+    <head>
+        <title></title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <link rel="stylesheet" href="../../../css/fonts/font-awesome.min.css">
+        <link rel="stylesheet" href="../../../css/ui-box.css">
+        <link rel="stylesheet" href="../../../css/ui-base.css">
+        <link rel="stylesheet" href="../../../css/ui-color.css">
+        <link rel="stylesheet" href="../../../css/appcan.icon.css">
+        <link rel="stylesheet" href="../../../css/appcan.control.css">
+        <link rel="stylesheet" href="../../../css/my.css">
+    </head>
+    <body class="um-vp bc-bg" ontouchstart>
+        <div id="dot">
+            <img src="../../../css/res/common/btn-act.png"/>
+            <div class="menu ub">
+                <div class="play ub-f1">
+                    演示
+                </div><div class="line lineone"></div>
+                <div class="source ub-f1">
+                    源码
+                </div><div class="line linetwo"></div>
+                <div class="return ub-f1">
+                    返回
+                </div>
+                <div class="triangle-blue"></div>
+            </div>
+        </div>
+        <div id="listview"  class="ubt bc-border sc-bg"></div>
+        <br>
+    </body>
+
+    <script src="../../../js/jquery.1.7.2.min.js"></script>
+    <script src="../../../js/jquery.event.ue.js.js"></script>
+    <script src="../../../js/jquery.udraggable.js"></script>
+    <script>
+        var jq = $.noConflict();
+    </script>
+    <script src="../../../js/appcan.js"></script>
+    <script src="../../../js/appcan.control.js"></script>
+    <script src="../../../js/appcan.listview.js"></script>
+    <script src="../../../js/my.js"></script>
+    </body>
+    <script>
+        appcan.ready(function() {
+            appcan.locStorage.remove("index");
+        });
+
+        var lv = appcan.listview({
+            selector : "#listview",
+            type : "thinLine",
+            hasIcon : false,
+            hasAngle : true,
+            hasSubTitle : true,
+            multiLine : 1,
+        });
+        lv.set([{
+            title : "open",
+            subTitle : "打开联系人界面",
+        }, {
+            title : "multiOpen",
+            subTitle : "打开联系人选择界面",
+        }, {
+            title : "addItem",
+            subTitle : "添加联系人",
+        }, {
+            title : "addItemWithVCard",
+            subTitle : "添加联系人",
+        }, {
+            title : "search",
+            subTitle : "查询联系人",
+        }, {
+            title : "searchItem",
+            subTitle : "只根据姓名查询联系人",
+        }, {
+            title : "modifyWithId",
+            subTitle : "使用id修改联系人(需先search获取id)",
+        }, {
+            title : "modifyItem",
+            subTitle : "修改联系人",
+        }, {
+            title : "deleteWithId",
+            subTitle : "删除联系人",
+        }, {
+            title : "deleteItem",
+            subTitle : "使用id删除联系人(需先search获取id)",
+        }])
+        lv.on("click", function(ele, obj, curEle) {
+            var name = obj.title;
+            eval(name + "()");
+        })
+        function open() {
+            uexContact.open(function(data) {
+                alert('callback:' + JSON.stringify(data));
+            });
+        }
+
+        function multiOpen() {
+            uexContact.multiOpen(function(data) {
+                alert('data:' + JSON.stringify(data));
+            });
+        }
+
+        function addItem() {
+            var option = {
+                isNeedAlertDialog : false
+            }
+            uexContact.addItem("张三", "13436827900", "widgetone@3g2win.com", JSON.stringify(option), function(data) {
+                alert(data);
+            });
+        }
+
+        function addItemWithVCard() {
+            uexContact.addItemWithVCard('BEGIN:VCARD\nVERSION:3.0\nN:韩;超\nTEL:22334752\nEMAIL:zhuliang@ceair.com\nADR:;;绥宁路628号;;上海;200335\nORG:中国东方航空股有限公司\nTITLE:项目经理\nURL:mp.ceair.com\nNOTE:名\347\211\214二维码\nEND:VCARD', '', function(data) {
+                alert(data);
+            });
+        }
+
+        function search() {
+            var option = {
+                resultNum : -1, //-1表示一次返回所有结果
+                searchName : '', //全部查询
+                isSearchNum : false,
+                isSearchEmail : false,
+                isSearchAddress : false,
+                isSearchCompany : false,
+                isSearchTitle : false,
+                isSearchNote : false,
+                isSearchUrl : false
+            }
+            uexContact.search(JSON.stringify(option), function(data) {
+                alert(JSON.stringify(data));
+            });
+        }
+
+        function searchItem() {
+            var option = {
+                resultNum : -1, //-1表示一次返回所有结果
+                isSearchNum : false,
+                isSearchEmail : false,
+                isSearchAddress : false,
+                isSearchCompany : false,
+                isSearchTitle : false,
+                isSearchNote : false,
+                isSearchUrl : false
+            }
+            uexContact.searchItem("张三", JSON.stringify(option), function(data) {
+                alert(JSON.stringify(data));
+            });
+        }
+
+        function modifyWithId() {
+            var option = {
+                contactId : "20", 
+                name : 'Appcan',
+                num : '15888888888',
+                email : 'widgeton@zymobi.com'
+            }
+            uexContact.modifyWithId(JSON.stringify(option), function(data) {
+                alert(data);
+            });
+        }
+
+        function modifyItem() {
+            uexContact.modifyItem("张三", "13436827900", "widgetone@3g2win.com", function(data) {
+                alert(data);
+            });
+        }
+
+        function deleteWithId() {
+            id = JSON.stringify(parseInt(id)+1);
+            var option = {
+                contactId : "19"
+            }
+            uexContact.deleteWithId(JSON.stringify(option), function(data) {
+                alert(data);
+            });
+        }
+
+        function deleteItem() {
+            uexContact.deleteItem("张三", function(data) {
+                alert(data);
+            });
+        }
+    </script>
+</html>

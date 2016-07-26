@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html class="um landscape min-width-240px min-width-320px min-width-480px min-width-768px min-width-1024px">
+    <head>
+        <title></title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <link rel="stylesheet" href="../../../css/fonts/font-awesome.min.css">
+        <link rel="stylesheet" href="../../../css/ui-box.css">
+        <link rel="stylesheet" href="../../../css/ui-base.css">
+        <link rel="stylesheet" href="../../../css/ui-color.css">
+        <link rel="stylesheet" href="../../../css/appcan.icon.css">
+        <link rel="stylesheet" href="../../../css/appcan.control.css">
+        <link rel="stylesheet" href="../../../css/new.css">
+
+    </head>
+    <body class="um-vp " ontouchstart>
+        <div id="page_0" class="up ub ub-ver bc-bg" tabindex="0">
+            <!--header开始-->
+            <div id="header" class="uh bc-text-head ub bc-head">
+                <div class="nav-btn" id="nav-left">
+                    <div class="fa fa-angle-left fa-2x"></div>
+                    <div class="text">
+                        返回
+                    </div>
+                </div>
+                <h1 class="ut ub-f1 ulev-3 ut-s tx-c" tabindex="0">buttonTest</h1>
+                <div class="nav-btn nav-bt" id="nav-right"></div>
+            </div>
+            <!--header结束--><!--content开始-->
+            <div id="content" class="ub-f1 tx-l">
+              <div class="ub ub-hor ub-pc" id="height">
+                            <div class="uin  ub-f1 " id="addButton">
+                                <div class="ub btn bc-text-head bc-btn ub-ac ub-pc ">
+                                    addButton
+                                </div>
+                            </div>
+                            <div class="uin  ub-f1 " id="removeButton">
+                                <div class="ub btn bc-text-head bc-btn ub-ac ub-pc ">
+                                    removeButton
+                                </div>
+                            </div>
+                        </div>
+               
+            </div>
+
+            <!--content结束-->
+
+        </div>
+        <script src="../../../js/appcan.js"></script>
+        <script src="../../../js/appcan.control.js"></script>
+        <script src="js/CCLog.js"></script>
+    </body>
+    <script>
+        appcan.ready(function() {
+            uexApplePay.onButtonClick = function(info){
+        CCLog(info);
+    }
+
+        });
+        
+        appcan.button("#nav-left", "btn-act", function() {
+            appcan.window.close(-1);
+        })
+        
+        appcan.button("#addButton", "btn-act", function() {
+            addButton();
+        })
+        
+        appcan.button("#removeButton", "btn-act", function() {
+            removeButton();
+        })
+        
+        var addButton = function(){
+    for (var i = 0; i < 9; i++) {
+        (function(idx){
+            var p = idx % 3;
+            var q = (idx - p) / 3;
+            var r = idx % 2;
+            var s = (idx - r) / 2 ;
+            var data = {
+                x : r * 200,
+                y : s * 70 + 200,
+                width : 180,
+                height : 60,
+                id : "button" + idx,
+                scrollWithWeb : (r == 0),
+                type:p,
+                style:q,
+            }
+            var suc = uexApplePay.addButton(JSON.stringify(data));
+            CCLog("add button " + idx +" : " +suc);
+        })(i);
+    };
+}
+    
+var removeButton = function(){
+        for (var i = 0; i < 9; i++) {
+        (function(idx){
+            var data = {
+                id : "button" + idx,
+            }
+            var suc = uexApplePay.removeButton(JSON.stringify(data));
+            CCLog("remove button " + idx +" : " +suc);
+        })(i);
+    };
+}
+
+
+    </script>
+</html>

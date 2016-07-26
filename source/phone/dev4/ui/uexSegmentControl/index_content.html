@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html class="um landscape min-width-240px min-width-320px min-width-480px min-width-768px min-width-1024px">
+    <head>
+        <title></title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <link rel="stylesheet" href="../../../css/fonts/font-awesome.min.css">
+        <link rel="stylesheet" href="../../../css/ui-box.css">
+        <link rel="stylesheet" href="../../../css/ui-base.css">
+        <link rel="stylesheet" href="../../../css/ui-color.css">
+        <link rel="stylesheet" href="../../../css/appcan.icon.css">
+        <link rel="stylesheet" href="../../../css/appcan.control.css">
+        <link rel="stylesheet" href="../../../css/my.css">
+    </head>
+    <body class="um-vp bc-bg" ontouchstart style="background: #fff;">
+        <div class="em"></div>
+        <script src="../../../js/appcan.js"></script>
+        <script src="../../../js/appcan.control.js"></script>
+        <!-- <script src="../../../js/my.js"></script> -->
+    </body>
+    <script>
+        window.uexOnload = function() {
+            uexWindow.onKeyPressed = function(k) {
+                    if (k == 0) {
+                        closeSlide();
+                    }
+                }
+                //监听物理返回键
+                uexWindow.setReportKey(0, 1);
+            var index = appcan.locStorage.val("index");
+            switch(index) {
+            case "segment0":
+                open()
+                break;
+            case "segment1":
+                open()
+                setCurrentItem()
+                break;
+            case "segment2":
+                open()
+                close()
+                break;
+            }
+            uexWindow.setSlidingWindowEnabled(0);
+        }
+        function closeSlide() {
+                uexSegmentControl.close();
+                uexWindow.close(-1);
+            }
+        function open() {
+            var top = appcan.locStorage.val("titHeight");
+            var width = window.screen.width;
+            var height = window.screen.height;
+            var obj = {
+                left : 0,
+                top : top,
+                width : width,
+                height : height,
+                dataInfo : {
+                    allData : ["头条", "娱乐", "体育", "北京", "财经", "科技", "段子", "图片", "汽车", "时尚", "轻松一刻", "军事", "历史", "房产", "游戏", "彩票", "原创", "电台", "论坛", "博客", "社会", "电影", "NBA", "中国足球", "国际足球", "CBA", "跑步", "手机", "数码", "移动互联", "家居", "旅游", "健康", "读书", "酒香", "教育", "亲子", "葡萄酒", "暴雪游戏", "情感", "政务"],
+                    showData : ["头条", "娱乐", "体育", "北京", "NBA", "科技", "段子", "旅游", "汽车", "时尚"],
+                    maxShow : 25,
+                    isExpand : 1,
+                    expandOpenIcon : '', //'res://btn_edit.png',
+                    expandCloseIcon : '', //'res://1Normal.png',
+                    showedLable : '我的频道',
+                    addLable : '点击添加'
+                }
+            };
+            uexSegmentControl.open(JSON.stringify(obj));
+        }
+
+        function setCurrentItem() {
+            var param = {
+                index:2
+            };
+            var data = JSON.stringify(param);
+            uexSegmentControl.setCurrentItem(data);
+        }
+
+        function close() {
+            open()
+            uexSegmentControl.close();
+        }
+       
+    </script>
+</html>

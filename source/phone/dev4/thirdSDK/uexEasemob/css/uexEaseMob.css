@@ -1,0 +1,55 @@
+#header {
+    background-color: #2A89FF !important;
+}
+#header h1{font-size:1.0625em !important }
+#header h1, #nav-left {
+    color: #fff !important;
+}
+#header div {
+    color: #fff !important;
+}
+body {
+    background-color: #fff !important;
+}
+div {
+    color: #333 !important;
+}
+.testbtn {
+    margin: 0;
+    background-color: #fff !important;
+    padding: 1em 0.5em;
+    font-weight: normal !important;
+    font-size: 1em;
+    border-bottom: 1px solid #E5E5E5;
+}
+.testbtn .fa {
+    position: absolute;
+    top: 0.65em;
+    right: 0.5em;
+    font-size: 1.5em;
+    color: #B1BABB !important;
+}
+.conbor {
+    padding: 0.5em !important;
+}
+span {
+    color: #333;
+    font-size: 1em !important;
+}
+.btn {
+    -webkit-appearance: none !important;
+    background-color: #2A89FF;
+    color: #fff;
+    font-size: 1em !important;
+    border: none;
+}
+#globalPostArea, #myCallback {
+    border: 1px solid #bebdbf;
+    min-height: 5em;
+    margin-left: 0.5em;
+    width: 90%
+}
+#myCallback {
+    margin-top: 1em;
+}
+

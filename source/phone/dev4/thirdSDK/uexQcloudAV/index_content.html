@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html class="um landscape min-width-240px min-width-320px min-width-480px min-width-768px min-width-1024px">
+    <head>
+        <title></title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <link rel="stylesheet" href="../../../css/fonts/font-awesome.min.css">
+        <link rel="stylesheet" href="../../../css/ui-box.css">
+        <link rel="stylesheet" href="../../../css/ui-base.css">
+        <link rel="stylesheet" href="../../../css/ui-color.css">
+        <link rel="stylesheet" href="../../../css/appcan.icon.css">
+        <link rel="stylesheet" href="../../../css/appcan.control.css">
+        <link rel="stylesheet" href="../../../css/my.css">
+    </head>
+    <body class="um-vp bc-bg" ontouchstart style="background: #fff;">
+        <div class="em"></div>
+        <script src="../../../js/appcan.js"></script>
+        <script src="../../../js/appcan.control.js"></script>
+        <!-- <script src="../../../js/my.js"></script> -->
+    </body>
+    <script>
+        window.uexOnload = function() {
+            uexWindow.onKeyPressed = function(k) {
+                    if (k == 0) {
+                        closeSlide();
+                    }
+                }
+                //监听物理返回键
+                uexWindow.setReportKey(0, 1);
+            var index = appcan.locStorage.val("index");
+            uexQcloudAV.onStateChanged = function(data) {
+                alert(data);
+            }
+            uexQcloudAV.onNetworkStateChanged = function(data) {
+                alert(data);
+            }
+            switch(index) {
+            case "qc0":
+                open()
+                break;
+            case "qc1":
+                open()
+                play()
+                break;
+            case "qc2":
+                open()
+                play()
+                seekTo()
+                break;
+            case "qc3":
+                open()
+                play()
+                seekTo()
+                getCurrentTime()
+                break;
+            case "qc4":
+                open()
+                play()
+                pause()
+                break;        
+            case "qc5":
+                open()
+                play()
+                stop()
+                break;
+            case "qc6":
+                open()
+                close()
+                break;  
+            case "qc7":
+                clear()
+                break;      
+           }      
+           uexWindow.setSlidingWindowEnabled(0);
+        }
+        function closeSlide() {
+                uexQcloudAV.close();
+                uexWindow.close(-1);
+            }
+        function open() {
+            var top = appcan.locStorage.val("titHeight");
+            var params = {
+                x : 0,
+                y : top,//Math.round(screen.availHeight * 0.58),
+                width : screen.availWidth,
+                height : Math.round(screen.availHeight * 0.37),
+                data : [{
+                    "videoType" : 1,
+                    "desc" : "1080p",
+                    "url" : "http://2527.vod.myqcloud.com/2527_3f7c6ea2e57611e48c830517c16aa0bc.f20.mp4"
+                }, {
+                    "videoType" : 1,
+                    "desc" : "蓝光",
+                    "url" : "http://2527.vod.myqcloud.com/2527_3f7c6ea2e57611e48c830517c16aa0bc.f30.mp4"
+                }]
+            };
+            var data = JSON.stringify(params);
+            uexQcloudAV.open(data);
+        }
+
+        function play() {
+            uexQcloudAV.play();
+        }
+
+        function seekTo() {
+            uexQcloudAV.seekTo("2000");
+        }
+
+        function getCurrentTime() {
+            var info = uexQcloudAV.getCurrentTime();
+            alert(time);
+        }
+
+        function pause() {
+            uexQcloudAV.pause();
+        }
+
+        function stop() {
+            uexQcloudAV.stop();
+        }
+
+        function close() {
+            uexQcloudAV.close();
+        }
+
+        function clear() {
+            uexQcloudAV.clear();
+            alert("缓存已清除")
+        }
+       
+    </script>
+</html>

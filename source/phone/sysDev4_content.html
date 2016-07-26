@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html class="um landscape min-width-240px min-width-320px min-width-480px min-width-768px min-width-1024px">
+    <head>
+        <title></title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <link rel="stylesheet" href="css/fonts/font-awesome.min.css">
+        <link rel="stylesheet" href="css/ui-box.css">
+        <link rel="stylesheet" href="css/ui-base.css">
+        <link rel="stylesheet" href="css/ui-color.css">
+        <link rel="stylesheet" href="css/appcan.icon.css">
+        <link rel="stylesheet" href="css/appcan.control.css">
+        <link rel="stylesheet" href="css/my.css">
+    </head>
+    <body class="um-vp bc-bg" ontouchstart>
+        <div id="listview"  class="ubt bc-border sc-bg"></div>
+    </body>
+
+    <script src="js/appcan.js"></script>
+    <script src="js/appcan.control.js"></script>
+    <script src="js/appcan.listview.js"></script>
+    </body>
+    <script>
+        appcan.ready(function() {
+        });
+
+        var lv = appcan.listview({
+            selector : "#listview",
+            type : "thinLine",
+            hasIcon : false,
+            hasAngle : true,
+            hasSubTitle : true,
+            multiLine : 1,
+        });
+        lv.set([{
+            title : "uex3DTouch",
+            subTitle : "3DTouch(仅iphone6s以上)",
+        }, {
+            title : "uexApplePay",
+            subTitle : "Apple Pay支付",
+        }, {
+            title : "uexBackground",
+            subTitle : "后台功能",
+        }, {
+            title : "uexBluetoothLE",
+            subTitle : "蓝牙",
+        }, {
+            title : "uexCall",
+            subTitle : "电话",
+        }, {
+            title : "uexCamera",
+            subTitle : "照相机",
+        }, {
+            title : "uexClipboard",
+            subTitle : "剪贴板",
+        }, {
+            title : "uexContact",
+            subTitle : "联系人",
+        }, {
+            title : "uexControl",
+            subTitle : "日期选择器",
+        }, {
+            title : "uexDataBaseMgr",
+            subTitle : "数据库",
+        }, {
+            title : "uexDevice",
+            subTitle : "设备信息",
+        }, {
+            title : "uexDocumentReader",
+            subTitle : "文档阅读",
+        }, {
+            title : "uexFileMgr",
+            subTitle : "文件操作",
+        }, {
+            title : "uexJsonXmlTrans",
+            subTitle : "JSON, XML转换工具",
+        }, {
+            title : "uexKeyChain",
+            subTitle : "钥匙串(仅iOS)",
+        }, {
+            title : "uexLocalNotification",
+            subTitle : "本地闹钟",
+        }, {
+            title : "uexLocation",
+            subTitle : "定位功能",
+        }, {
+            title : "uexSensor",
+            subTitle : "传感器",
+        }, {
+            title : "uexSMS",
+            subTitle : "短信",
+        }, {
+            title : "uexTouchID",
+            subTitle : "TouchID苹果指纹识别",
+        }, {
+            title : "uexZip",
+            subTitle : "压缩功能",
+        }])
+        lv.on("click", function(ele, obj, curEle) {
+            appcan.window.open(obj.title + "apiDev4", "dev4/system/" + obj.title + "/api.html", 10)
+        })
+
+    </script>
+</html>
