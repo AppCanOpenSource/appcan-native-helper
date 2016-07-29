@@ -40,98 +40,126 @@ var cJson = 1;
 var cInt = 2;
 var path ="wgt://data/test.txt";
 
-function createFile() {
-    var ret = uexFileMgr.createFile('1', path);
+function create() {
+    var ret = uexFileMgr.create(path);
     alert(ret);
 }
 
-function createDir() {
+function mkdir() {
     var path = "wgt://data/test2/";
-    var ret = uexFileMgr.createDir('20', path);
+    var ret = uexFileMgr.mkdir(path);
+    alert(ret);
+}
+function open(){
+    var param={
+        path:path,
+        mode:3
+    };
+    var ret=uexFileMgr.open(param);
     alert(ret);
 }
 
 function writeFile() {
-    uexFileMgr.openFile('1', path, '1');
-    uexFileMgr.writeFile('1', 0, "test",function(ret){
+    var file=uexFileMgr.open({
+        path:path,
+        mode:3
+    });
+    uexFileMgr.writeFile(file, 0, "test",function(ret){
         alert(ret);
     });
-    uexFileMgr.closeFile('1');
+    uexFileMgr.closeFile(file);
 }
 
 function readFile() {
-    uexFileMgr.openFile('1', path, '1');
-    uexFileMgr.readFile('1', -1,0,function(data){
-        alert(data);
+    var file = uexFileMgr.open({
+        path: path,
+        mode: 3
     });
-    uexFileMgr.closeFile('1');
+    uexFileMgr.readFile(file, -1,0,function(isSuccess,data){
+        if(isSuccess){
+            alert(data);
+        }else{
+            alert("读取失败!");
+        }
+    
+    });
 }
 
-function isFileExistByPath(){
-    uexFileMgr.createFile('2', path);
-    var ret = uexFileMgr.isFileExistByPath("2",path);
+function isFileExistByPath() {
+    var ret = uexFileMgr.isFileExistByPath(path);
     alert(ret);
 }
 
 function isFileExistByID() {
-    uexFileMgr.createFile('2', path);
-    uexFileMgr.isFileExistByID('2');
-    uexFileMgr.closeFile('2');
+    var file = uexFileMgr.open({
+        path: path,
+        mode: 3
+    });
+    var ret = uexFileMgr.isFileExistByID(file);
+    alert(ret);
 }
 
-function deleteFileByPath(){
+function deleteFileByPath() {
     var ret = uexFileMgr.deleteFileByPath(path);
     alert(ret);
 }
 
 function deleteFileById() {
-    var ret = uexFileMgr.deleteFileByID(1);
+    var file = uexFileMgr.open({
+        path: path,
+        mode: 3
+    });
+    var ret = uexFileMgr.deleteFileByID(file);
     alert(ret);
 }
 
-function getFileTypeByPath(){
+function getFileTypeByPath() {
     var ret = uexFileMgr.getFileTypeByPath(path);
     alert(ret);
 }
 
-function getFileTypeByID() {
-    uexFileMgr.createFile('4', path);
-    var ret = uexFileMgr.getFileTypeByID('4');
-    alert(ret);
-    uexFileMgr.closeFile('4');
-}
-
 function seekFile() {
-    uexFileMgr.openFile('1', path, '1');
-    var ret = uexFileMgr.seekFile('1', '1');
+    var file = uexFileMgr.open({
+        path: path,
+        mode: 3
+    });
+    var ret = uexFileMgr.seekFile(file, '1');
     alert(ret);
-    uexFileMgr.closeFile('1');
+    uexFileMgr.closeFile(file);
 }
 
 function seekBeginOfFile() {
-    uexFileMgr.openFile('1', path, '1');
-    var ret = uexFileMgr.seekFile('1', '1');
+    var file = uexFileMgr.open({
+        path: path,
+        mode: 3
+    });
+    var ret = uexFileMgr.seekBeginOfFile(file);
     alert(ret);
-    uexFileMgr.closeFile('1');
+    uexFileMgr.closeFile(file);
 }
 
 function seekEndOfFile() {
-    uexFileMgr.openFile('1', path, '1');
-    var ret = uexFileMgr.seekEndOfFile('1');
+    var file = uexFileMgr.open({
+        path: path,
+        mode: 3
+    });
+    var ret = uexFileMgr.seekEndOfFile(file);
     alert(ret);
-    uexFileMgr.closeFile('1');
+    uexFileMgr.closeFile(file);
 }
 
 function getFileSize() {
-    uexFileMgr.openFile('1', path, '1');
-    var size = uexFileMgr.getFileSize('1');
+    var file = uexFileMgr.open({
+        path: path,
+        mode: 3
+    });
+    var size = uexFileMgr.getFileSize(file);
     alert(size);
-    uexFileMgr.closeFile('1');
+    uexFileMgr.closeFile(file);
 }
 
-function getFileSizeByPath(){
+function getFileSizeByPath() {
     var params = {
-        id:1,
         path:"wgt://",
         unit:"KB"
     }
@@ -146,59 +174,142 @@ function getFileSizeByPath(){
 }
 
 function getFilePath() {
-    uexFileMgr.openFile('1', path, '1');
-    var path = uexFileMgr.getFilePath('1');
+    var file = uexFileMgr.open({
+        path: path,
+        mode: 3
+    });
+    var path = uexFileMgr.getFilePath(file);
     alert(path);
-    uexFileMgr.closeFile('1');
+    uexFileMgr.closeFile(file);
 }
 
 function getFileRealPath() {
-    uexFileMgr.getFileRealPath(path,function(path){
-        alert(path);
+    uexFileMgr.getFileRealPath(path, function(info) {
+        if (info.errorCode == 0) {
+            alert(info.data);
+        } else {
+            alert("ERROR!");
+        }
+    });
+    uexFileMgr.closeFile(file);
+    // uexFileMgr.getFileRealPath(path, function(path) {
+        // alert(path);
+    // });
+}
+
+function getReaderOffset(){
+    var file = uexFileMgr.open({
+        path: path,
+        mode: 3
+    });
+    uexFileMgr.getReaderOffset(file);
+}
+function readPercent(){
+    var file = uexFileMgr.open({
+        path: path,
+        mode: 3
+    });
+    uexFileMgr.readPercent(file,20,3,function(isSuccess,data){
+        if(isSuccess){
+            alert(data);
+        }else{
+            alert("ERROR!");
+        }
+    });
+}
+function readNext(){
+    var file = uexFileMgr.open({
+        path: path,
+        mode: 3
+    });
+    uexFileMgr.readNext(file, 20,function(isSuccess,data){
+        if(isSuccess){
+            alert(data);
+        }else{
+            alert("ERROR!");
+        }
+    });
+}
+function readPre(){
+    var file = uexFileMgr.open({
+        path: path,
+        mode: 3
+    });
+    uexFileMgr.readPre(file,20,function(isSuccess,data){
+        if(isSuccess){
+            alert(data);
+        }else{
+            alert("ERROR!");
+        }
+    });
+}
+function getFileCreateTime(){
+    var timeStr = uexFileMgr.getFileCreateTime(path);
+    alert(timeStr);
+}
+function renameFile(){
+    var data = {
+        oldFilePath:path,
+        newFilePath:"wgt://data/test2.txt"
+    }
+    uexFileMgr.renameFile(JSON.stringify(data),function(obj){
+        if(obj.result == 1){
+            alert("重命名成功!");
+        }else{
+            alert("重命名失败!");
+        }
     });
 }
 
 function explorer() {
-    uexFileMgr.explorer("/sdcard/widgetone",function(path){
+    uexFileMgr.explorer("/sdcard/widgetone", function(path) {
         alert(path);
     });
 }
 
-function multiExplorer (){
-    uexFileMgr.multiExplorer("/sdcard/widgetone",function(paths){
+function multiExplorer() {
+    uexFileMgr.multiExplorer("/sdcard/widgetone", function(paths) {
         alert(paths);
     });
 }
 
-function createSecure() {
-    var ret = uexFileMgr.createSecure('100', "wgt://secure.txt", '123456');
-    alert(ret)
-    alert(uexFileMgr.writeFile('100', '0', '这是加密文件内容'));
-    uexFileMgr.closeFile('100');
+function createWithPassword () {
+    var file = uexFileMgr.createWithPassword({
+        path: path,
+        password: "123456",
+        mode: 3
+    });
+    if(!file){
+        alert("创建失败!");
+    }
+    uexFileMgr.closeFile(file);
 }
 
-function openSecure() {
-    var ret = uexFileMgr.openSecure('100', "wgt://secure.txt", '1', '123456');
-    alert(ret);
-    uexFileMgr.readFile('100', function(data){
-     alert(data);
- });
-    uexFileMgr.closeFile('100');
+function openWithPassword () {
+    var file = uexFileMgr.openWithPassword({
+        path: path,
+        password: "123456",
+        mode: 3
+    });
+    if(!file){
+        alert("打开失败!");
+    }
+    uexFileMgr.closeFile(file);
 }
 
 function getFileListByPath() {
     var path = "wgt://"
     var result = uexFileMgr.getFileListByPath(path);
-    alert(result);
+    alert(JSON.stringify(result));
 }
 
-function search(){
+function search() {
     var data={
         path:"res://",
         option:5,
-        keywords:["test"],
-        suffixes:["txt"]
-    }
+        keywords:["index"],
+        suffixes:["txt","xml"]
+        }
     
     uexFileMgr.search(JSON.stringify(data),function(obj){
         if(obj.isSuccess){
@@ -207,15 +318,21 @@ function search(){
             alert("搜索失败!");
         }
     });
+    
 }
 
-function copyFile() {
-    var s = "res://layout_index_item00.xml";
-    var o = "wgt://";
-    uexFileMgr.copyFile('109',s,o,function(result){
-        alert(result);
+function copy() {
+    uexFileMgr.copy({
+        src: path,
+        target: "wgt://test2/" 
+    },function(ret){
+        if(ret){
+            alert("复制成功");
+        }else{
+            alert("复制失败");
+        }
     });
-}            
+}
         </code></pre>
     </body>
     <!-- <script src="http://apps.bdimg.com/libs/jquery/2.1.1/jquery.min.js"></script> -->
