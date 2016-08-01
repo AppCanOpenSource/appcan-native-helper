@@ -88,66 +88,55 @@
             var name = obj.title;
             eval(name + "()");
         })
+        var uploader=null;
         function createUploader() {
-            var ext = {
-                type : +getRadioValue("uploaderType")
-            }
-            uexUploaderMgr.createUploader(myUploaderID, "http://te.3g2win.com/pidginimg/upload.php", JSON.stringify(ext));
-            alert("创建上传对象成功");
+            uploader = uexUploaderMgr.create({
+              url: "http://192.168.1.4:45678/post",
+              type: 1
+            });
+            if (!uploader) {
+              alert("创建uploader失败!")
+              return;
+            };
+            alert("创建成功");            
         }
 
         function setHeaders() {
-            var header = {
-                myHeaderKey : "myHeaderValue"
-            };
-            uexUploaderMgr.setHeaders(myUploaderID, JSON.stringify(header));
-            alert("设置请求头成功");
+            var headJson = JSON.stringify({
+              myHeaderKey:"myHeaderValue"
+            });
+            uexUploaderMgr.setHeaders(uploader, headJson);
+            alert("setHeaders:" + uexUploaderMgr.setHeaders(uploader, headJson));
         }
 
         function uploadFile() {
-            uexUploaderMgr.uploadFile(myUploaderID, "res://aa.jpg", "myImage", getRadioValue("imageQuaility"), "400", function(fileSize, percent, response, status) {
+            uexUploaderMgr.uploadFile(uploader,
+              "res://aa.png",
+              "myImage",
+              1,
+              "400",
+              function(fileSize,percent,response,status){
                 switch (status) {
-                case 0:
-                $("#percentage").addClass('tcxx');
-                $("#percentage").html( "文件大小：" + fileSize + "<br>上传进度：" + percent + "%");
-                    //document.getElementById('percentage').innerHTML = "packageSize：" + fileSize + "<br>progress：" + percent + "%";
-                    break;
-
-                case 1:
-                    //alert("upload SUCCESS!");
-                    alert("上传成功!");
-                    uexUploaderMgr.closeUploader(myUploaderID);
-                    //alert(response);
-                    break;
-                case 2:
-                    //alert("upload FAILED!");
-                    alert("上传失败!");
-                    uexUploaderMgr.closeUploader(myUploaderID);
-                    break;
-
+                  case 0:
+                  document.getElementById('percentage').innerHTML = "packageSize："+fileSize+"<br>progress："+percent+"%";
+                  return;
+                  case 1:
+                  alert("upload SUCCESS!");
+                  alert(response);
+                  break;
+                  case 2:
+                  alert("upload FAILED!");
+                  break;        
+                  uexUploaderMgr.closeUploader(uploader);
                 }
-
-            });
+              });
         }
 
         function closeUploader() {
-            var ret = uexUploaderMgr.closeUploader(1);
-            //alert(ret);
-            alert("关闭成功");
+            var ret = uexUploaderMgr.closeUploader(uploader);
+            alert(ret);
         }
 
-        var getRadioValue = function(name) {
-            var radios = document.getElementsByName(name);
-            var value;
-            for (var i = 0; i < radios.length; i++) {
-                var radio = radios[i];
-                if (radio.checked) {
-                    value = radio.value;
-                }
-            }
-            return value;
-
-        }
 
     </script>
 </html>

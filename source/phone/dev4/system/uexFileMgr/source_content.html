@@ -40,9 +40,16 @@ var cJson = 1;
 var cInt = 2;
 var path ="wgt://data/test.txt";
 
-function create() {
-    var ret = uexFileMgr.create(path);
-    alert(ret);
+ function create() {
+    var file = uexFileMgr.create({
+        path:path
+    });
+    if(!file){
+        alert("创建失败!");
+    }else{
+        alert('创建成功');
+    }
+    
 }
 
 function mkdir() {
@@ -62,9 +69,9 @@ function open(){
 function writeFile() {
     var file=uexFileMgr.open({
         path:path,
-        mode:3
+        mode:1
     });
-    uexFileMgr.writeFile(file, 0, "test",function(ret){
+    uexFileMgr.writeFile(file, 0, "testtesttesttesttesttesttesttesttest",function(ret){
         alert(ret);
     });
     uexFileMgr.closeFile(file);
@@ -73,7 +80,7 @@ function writeFile() {
 function readFile() {
     var file = uexFileMgr.open({
         path: path,
-        mode: 3
+        mode: 1
     });
     uexFileMgr.readFile(file, -1,0,function(isSuccess,data){
         if(isSuccess){
@@ -112,12 +119,10 @@ function deleteFileById() {
     var ret = uexFileMgr.deleteFileByID(file);
     alert(ret);
 }
-
 function getFileTypeByPath() {
     var ret = uexFileMgr.getFileTypeByPath(path);
     alert(ret);
 }
-
 function seekFile() {
     var file = uexFileMgr.open({
         path: path,
@@ -147,7 +152,6 @@ function seekEndOfFile() {
     alert(ret);
     uexFileMgr.closeFile(file);
 }
-
 function getFileSize() {
     var file = uexFileMgr.open({
         path: path,
@@ -172,31 +176,21 @@ function getFileSizeByPath() {
         }
     });
 }
-
 function getFilePath() {
     var file = uexFileMgr.open({
         path: path,
         mode: 3
     });
-    var path = uexFileMgr.getFilePath(file);
-    alert(path);
+    var path1 = uexFileMgr.getFilePath(file);
+    alert(path1);
     uexFileMgr.closeFile(file);
 }
 
 function getFileRealPath() {
-    uexFileMgr.getFileRealPath(path, function(info) {
-        if (info.errorCode == 0) {
-            alert(info.data);
-        } else {
-            alert("ERROR!");
-        }
-    });
-    uexFileMgr.closeFile(file);
-    // uexFileMgr.getFileRealPath(path, function(path) {
-        // alert(path);
-    // });
+    var path1=uexFileMgr.getFileRealPath(path);
+    alert(path1);
 }
-
+/*新加的*/
 function getReaderOffset(){
     var file = uexFileMgr.open({
         path: path,
@@ -261,6 +255,9 @@ function renameFile(){
     });
 }
 
+
+
+
 function explorer() {
     uexFileMgr.explorer("/sdcard/widgetone", function(path) {
         alert(path);
@@ -281,6 +278,8 @@ function createWithPassword () {
     });
     if(!file){
         alert("创建失败!");
+    }else{
+        alert("创建成功!");
     }
     uexFileMgr.closeFile(file);
 }
@@ -293,6 +292,8 @@ function openWithPassword () {
     });
     if(!file){
         alert("打开失败!");
+    }else{
+        alert('打开成功');
     }
     uexFileMgr.closeFile(file);
 }
@@ -320,11 +321,10 @@ function search() {
     });
     
 }
-
 function copy() {
     uexFileMgr.copy({
         src: path,
-        target: "wgt://test2/" 
+        target: "wgt://data/test2/" 
     },function(ret){
         if(ret){
             alert("复制成功");

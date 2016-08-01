@@ -70,8 +70,6 @@
             $(".lis").eq(0).after('<div id="adre" class=""></div>');
             $(".lis").eq(1).after('<div id="adre1"></div><div id="adre2"></div>');
             $(".lis").eq(2).after('<div id="adre3"></div>');
-$('#adre1').html("<div class='w'>" + "<span>请求结果：</span>" + "<br/> 请求状态:</div>")
-            
         });
 
         var lv = appcan.listview({
@@ -102,7 +100,7 @@ $('#adre1').html("<div class='w'>" + "<span>请求结果：</span>" + "<br/> 请
         })
         function xmlHttpPost() {
 
-            var url = "http://192.168.1.4:45678/post";
+            var url = "http://139.224.11.153:45678/post";
             var req = uexXmlHttpMgr.create({
                 method : "POST",
                 url : url
@@ -115,7 +113,7 @@ $('#adre1').html("<div class='w'>" + "<span>请求结果：</span>" + "<br/> 请
             uexXmlHttpMgr.setPostData(req, "1", "file", "res://test.pdf");
 
             uexXmlHttpMgr.send(req, 0, function(state, resStr, resCode, resInfo) {
-                $('#adre1').html("<div class='w'>" + "<span>请求结果：</span>" + "<br/> 请求状态:" + state + "<br/> 服务器返回的文本数据:" + resStr + "<br/>http请求返回的状态码:" + resCode + "<br/>resInfo: " + JSON.stringify(resInfo)+"</div>")
+                $('#adre1').html("<div class='w'>请求状态:" + state + "<br/> 服务器返回的文本数据:" + resStr + "<br/>http请求返回的状态码:" + resCode + "<br/>resInfo: " + JSON.stringify(resInfo)+"</div>")
             }, function(inProgress) {
                 $('#adre2').html("<div class='w'>" + "<span>文件上传进度：</span>" + inProgress + "%</div>");
             });
@@ -124,7 +122,7 @@ $('#adre1').html("<div class='w'>" + "<span>请求结果：</span>" + "<br/> 请
 
 
         function xmlHttpGet() {
-            var url = "http://192.168.1.4:45678/get?key1=value1&key2=value2&arr[]=aaa&arr[]=bbb&arr[]=ccc"
+            var url = "http://139.224.11.153:45678/get?key1=value1&key2=value2&arr[]=aaa&arr[]=bbb&arr[]=ccc"
             var req = uexXmlHttpMgr.create({
                 method : "GET",
                 url : url
@@ -135,7 +133,7 @@ $('#adre1').html("<div class='w'>" + "<span>请求结果：</span>" + "<br/> 请
             }
             uexXmlHttpMgr.setHeaders(req, JSON.stringify(headers));
             uexXmlHttpMgr.send(req, 0, function(state, resStr, resCode, resInfo) {
-                $("#adre").html("<div class='w'>" + "<span>请求结果：</span>" + "<br> 请求状态:" + state + "<br> 服务器返回的文本数据:" + resStr + "<br/>http请求返回的状态码:" + resCode + "<br/>resInfo: " + JSON.stringify(resInfo)+"</div>");
+                $("#adre").html("<div class='w'>请求状态:" + state + "<br> 服务器返回的文本数据:" + resStr + "<br/>http请求返回的状态码:" + resCode + "<br/>resInfo: " + JSON.stringify(resInfo)+"</div>");
             });
 
         }
@@ -143,7 +141,7 @@ $('#adre1').html("<div class='w'>" + "<span>请求结果：</span>" + "<br/> 请
         getCookie = function() {
             //alert('getCookie');
             // var result = uexXmlHttpMgr.getCookie("http://192.168.1.57");
-            var result = uexXmlHttpMgr.getCookie("http://192.168.1.4");
+            var result = uexXmlHttpMgr.getCookie("http://139.224.11.153:45678");
             //alert(result);
             $('#adre3').html("<div class='w'>" + "<span>获取的cookie：</span>" + result + "</div>");
         }

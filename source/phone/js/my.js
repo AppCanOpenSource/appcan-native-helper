@@ -47,10 +47,11 @@ appcan.button(".source", "btn-act", function() {
 appcan.button(".return", "btn-act", function() {
     // appcan.window.open("scrawlapi","api.html");
     var single = appcan.locStorage.val("single")
-    if(single=="1"){
-        appcan.window.closePopover("source")
-    }else{
-        appcan.window.publish("close", 0);
-    }
+    appcan.window.publish("close", 0);
+    // if(single=="1"){
+        // appcan.window.closePopover("source")
+    // }else{
+        // appcan.window.publish("close", 0);
+    // }
     // appcan.window.close(-1);
 })
