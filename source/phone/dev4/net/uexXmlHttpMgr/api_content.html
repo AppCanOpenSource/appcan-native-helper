@@ -19,6 +19,7 @@
                 word-break: break-all;
                 overflow: hidden;
                 Word-wrap: break-word;
+                padding: 0.5em;
             }
             /*.breakword {
              white-space: normal;
@@ -69,7 +70,8 @@
             $(".lis").eq(0).after('<div id="adre" class=""></div>');
             $(".lis").eq(1).after('<div id="adre1"></div><div id="adre2"></div>');
             $(".lis").eq(2).after('<div id="adre3"></div>');
-
+$('#adre1').html("<div class='w'>" + "<span>请求结果：</span>" + "<br/> 请求状态:</div>")
+            
         });
 
         var lv = appcan.listview({
