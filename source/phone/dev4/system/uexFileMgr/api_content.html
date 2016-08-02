@@ -176,6 +176,30 @@
             title : "renameFile",
             subTitle : "重命名文件",
             id : "30"
+        }, {
+            title : "creatMore",
+            subTitle : "创建多个文件",
+            id : "31"
+        }, {
+            title : "openMore",
+            subTitle : "打开多个文件",
+            id : "33"
+        }, {
+            title : "whiteMoreFile",
+            subTitle : "写多个文件",
+            id : "34"
+        }, {
+            title : "delectMoreFileByPath",
+            subTitle : "删除多个文件(根据路径)",
+            id : "35"
+        }, {
+            title : "delectMoreFileById",
+            subTitle : "删除多个文件(根据ID)",
+            id : "36"
+        }, {
+            title : "copyMoreFile",
+            subTitle : "复制多个文件",
+            id : "37"
         }])
         lv.on("click", function(ele, obj, curEle) {
             //直接根据标题来执行同名函数
@@ -186,7 +210,108 @@
         var cJson = 1;
         var cInt = 2;
         var path = "wgt://data/test.txt";
-
+        var path1="wgt://data/test1.txt";
+        var path2="wgt://data/test2.txt";
+        function creatMore(){
+            var file1 = uexFileMgr.create({
+                path:path1
+            });
+            var file2 = uexFileMgr.create({
+                path:path2
+            });
+            if(!file1){
+                alert("文件1创建失败!");
+            }else{
+                alert('文件1创建成功');
+            }if(!file2){
+                alert("文件2创建失败!");
+            }else{
+                alert("文件2创建成功!");
+            }
+        }
+        function creatMoreDr(){
+            var dr1 = "wgt://data/test3/";
+            var ret1 = uexFileMgr.mkdir(dr1);
+            alert(ret);
+            var dr2 = "wgt://data/test4/";
+            var ret2 = uexFileMgr.mkdir(dr2);
+            alert(ret2);
+        }
+        function openMore(){
+            var param1={
+                path:path1,
+                mode:3
+            };
+            var param2={
+                path:path2,
+                mode:3
+            };
+            var ret1=uexFileMgr.open(param1);
+            alert(ret1);
+            var ret1=uexFileMgr.open(param2);
+            alert(ret2);
+        }
+        function whiteMoreFile(){
+             var file1=uexFileMgr.open({
+                path:path1,
+                mode:1
+            });
+            uexFileMgr.writeFile(file1, 0, "testtesttesttesttesttesttesttesttest",function(ret){
+                alert(ret);
+                var file2=uexFileMgr.open({
+                path:path2,
+                mode:1
+              });
+              uexFileMgr.writeFile(file2, 0, "hellohellohellohellohellohellohellohello",function(ret){
+                    alert(ret);
+                    uexFileMgr.closeFile(file1);
+                    uexFileMgr.closeFile(file2); 
+                  });
+            });
+            
+        }
+        function delectMoreFileByPath(){
+            var ret1 = uexFileMgr.deleteFileByPath(path1);
+            var ret2 = uexFileMgr.deleteFileByPath(path2);
+            alert(ret1);
+            alert(ret2);
+        }
+        function delectMoreFileById(){
+            var file1 = uexFileMgr.open({
+                path: path1,
+                mode: 3
+            });
+            var ret1 = uexFileMgr.deleteFileByID(file1);
+            alert(ret1);
+            var file2 = uexFileMgr.open({
+                path: path2,
+                mode: 3
+            });
+            var ret2 = uexFileMgr.deleteFileByID(file2);
+            alert(ret2);
+        }
+        function copyMoreFile(){
+            uexFileMgr.copy({
+                src: path1,
+                target: "wgt://data/test3/" //得先建立文件夹
+            },function(ret){
+                if(ret){
+                    alert("文件1复制成功");
+                    uexFileMgr.copy({
+                        src: path2,
+                        target: "wgt://data/test3/" //得先建立文件夹
+                    },function(ret){
+                        if(ret){
+                            alert("文件2复制成功");
+                        }else{
+                            alert("文件2复制失败");
+                        }
+                    });
+                }else{
+                    alert("文件1复制失败");
+                }
+            });
+        }
         function create() {
             var file = uexFileMgr.create({
                 path:path
@@ -200,7 +325,7 @@
         }
 
         function mkdir() {
-            var path = "wgt://data/test2/";
+            var path = "wgt://data/test5/";
             var ret = uexFileMgr.mkdir(path);
             alert(ret);
         }
@@ -292,7 +417,7 @@
         function seekEndOfFile() {
             var file = uexFileMgr.open({
                 path: path,
-                mode: 3
+                mode: 1
             });
             var ret = uexFileMgr.seekEndOfFile(file);
             alert(ret);
@@ -340,14 +465,15 @@
         function getReaderOffset(){
             var file = uexFileMgr.open({
                 path: path,
-                mode: 3
+                mode: 1
             });
-            uexFileMgr.getReaderOffset(file);
+            var ret=uexFileMgr.getReaderOffset(file);
+            alert(ret);
         }
         function readPercent(){
             var file = uexFileMgr.open({
                 path: path,
-                mode: 3
+                mode: 1
             });
             uexFileMgr.readPercent(file,20,3,function(isSuccess,data){
                 if(isSuccess){
@@ -360,7 +486,7 @@
         function readNext(){
             var file = uexFileMgr.open({
                 path: path,
-                mode: 3
+                mode: 1
             });
             uexFileMgr.readNext(file, 20,function(isSuccess,data){
                 if(isSuccess){
@@ -373,15 +499,24 @@
         function readPre(){
             var file = uexFileMgr.open({
                 path: path,
-                mode: 3
+                mode: 1
             });
-            uexFileMgr.readPre(file,20,function(isSuccess,data){
+            uexFileMgr.readNext(file, 20,function(isSuccess,data){
                 if(isSuccess){
-                    alert(data);
+                    //alert(data);
+                    uexFileMgr.readPre(file,20,function(isSuccess,data){
+                    if(isSuccess){
+                        alert(data);
+                    }else{
+                        alert("ERROR!");
+                    }
+                });
                 }else{
                     alert("ERROR!");
                 }
             });
+          //  uexFileMgr.seekEndOfFile(file);
+            
         }
         function getFileCreateTime(){
             var timeStr = uexFileMgr.getFileCreateTime(path);
@@ -390,7 +525,7 @@
         function renameFile(){
             var data = {
                 oldFilePath:path,
-                newFilePath:"wgt://data/test2.txt"
+                newFilePath:"wgt://data/test8.txt"
             }
             uexFileMgr.renameFile(JSON.stringify(data),function(obj){
                 if(obj.result == 1){
@@ -470,7 +605,7 @@
         function copy() {
             uexFileMgr.copy({
                 src: path,
-                target: "wgt://data/test2/" 
+                target: "wgt://data/test5/" //得先建立文件夹
             },function(ret){
                 if(ret){
                     alert("复制成功");

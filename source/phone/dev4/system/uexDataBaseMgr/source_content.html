@@ -35,67 +35,62 @@
             </div>
 
         </div>
-        <pre><code data-language="javascript">var dbName; 
-function createDB(){
-    dbName = "uexDB";
-    var result = uexDataBaseMgr.openDataBase(dbName,1);
-    if(result==0){
-        alert("打开成功")
-    }else{
-        alert("打开失败")
-    }
+        <pre><code data-language="javascript">var cText = 0;
+var cJson = 1;
+var cInt = 2;
+
+var db;
+function createDB() {
+    db = uexDataBaseMgr.open("uexDB");
+    alert(db != null);
 }
 
-function createTable(){
-    //var sql = "CREATE TABLE testTable (_id  INTEGER PRIMARY KEY,name TEXT)";
-    uexDataBaseMgr.executeSql(dbName,1,"CREATE TABLE testTable (_id  INTEGER PRIMARY KEY,name TEXT,data VARCHAR)", function(data) {
-        if (data == 1) {
-            alert('创建表成功')
+function createTable() {
+    var sql = "CREATE TABLE IF NOT EXISTS testTable (_id  INTEGER PRIMARY KEY,name TEXT)";
+    uexDataBaseMgr.sql(db, sql, function(error) {
+        if (!error) {
+            alert('创建数据库成功')
         }
     });
 }
 
-function insertData(){
-//  var sql = "INSERT INTO testTable (name) VALUES ('this is test')";
-    uexDataBaseMgr.executeSql(dbName,1,"INSERT INTO testTable (_id,name,data) VALUES ('2','这是测试','这是测试')", function(data) {
-        if (data == 1) {
-            alert('执行成功')
+function insertData() {
+    uexDataBaseMgr.sql(db, "INSERT INTO testTable (name) VALUES ('这是测试')", function(error) {
+        if (!error) {
+            alert('插入数据成功')
         }
     });
 }
 
-function selectData(){
-//  var sql = "SELECT * FROM testTable";
-    uexDataBaseMgr.selectSql(dbName,1,"SELECT * FROM testTable", function(data) {
-        if(data == 1) {
-            alert("查询失败");
+
+function selectData() {
+    var sql = "SELECT * FROM testTable";
+    uexDataBaseMgr.select(db, sql, function(error, data) {
+        if (error) {
+            alert('执行失败');
         } else {
-            alert(JSON.stringify(data));
+            alert('data:' + JSON.stringify(data));
         }
     });
 }
 
-function transaction(){
-    uexDataBaseMgr.transaction(dbName,1,inFunc, function(data) {
-    if(data==0){
-        alert("打开成功")
-    }else{
-        alert("打开失败")
-    }
+function transaction() {
+    uexDataBaseMgr.transactionEx(db, inFunc, function(error) {
+        if (!error) {
+            alert("删除_id为1数据成功");
+        }
     });
-    //uexDataBaseMgr.beginTransaction(1);
-    //uexDataBaseMgr.cbBeginTransaction = beginTransactionCallBack;
-    //drop table testTable是删除表；DELETE FROM testTable WHERE _id = 1删除第一项
 }
 
-function deleteTable(){
-    uexDataBaseMgr.executeSql(dbName,1,"DROP TABLE testTable");
+function inFunc() {
+    uexDataBaseMgr.sql(db, "DELETE FROM testTable WHERE _id = 1");
 }
 
-function inFunc(){
-    uexDataBaseMgr.executeSql(dbName,1,"DELETE FROM testTable WHERE _id = 1");
-    uexDataBaseMgr.cbExecuteSql = null;
-}</code></pre>
+function close() {
+    var result = uexDataBaseMgr.close(db);
+    alert("close result:" + result);
+}
+</code></pre>
     </body>
     <!-- <script src="http://apps.bdimg.com/libs/jquery/2.1.1/jquery.min.js"></script> -->
     <script src="../../../js/jquery.1.7.2.min.js"></script>
@@ -116,10 +111,6 @@ function inFunc(){
 
         appcan.button(".play", "btn-act", function() {
             appcan.window.closePopover("source")
-            // appcan.window.open("play","index.html");
-            // var titHeight = appcan.locStorage.val("titHeight");
-            // appcan.window.openPopover("scrawlIndex", "0", "index_content.html", '', 0, titHeight, '', '', '', '');
-            // appcan.window.publish("changeHeader", "play");
         })
 
     </script>

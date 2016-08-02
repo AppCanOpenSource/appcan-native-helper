@@ -4,7 +4,7 @@ jq('#dot').udraggable({
 
 var isDev4 = appcan.locStorage.val("isDev4");
 
-appcan.button("#dot img", "btn-act", function() {
+$("#dot img").on("touchstart",function(){
     $(".menu").toggleClass("hide");
     if (isDev4 == 0) {
         if ($(".menu").css("display") != "none") {
@@ -19,7 +19,6 @@ appcan.button("#dot img", "btn-act", function() {
             $("#dot img").attr("src", "../../../css/res/common/btn.png")
         }
     }
-
 })
 
 appcan.button(".source", "btn-act", function() {

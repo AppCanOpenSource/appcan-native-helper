@@ -84,6 +84,10 @@
             title : "getInfo",
             subTitle : "获取下载对象的相关信息",
             id : "6"
+        }, {
+            title : "downloads",
+            subTitle : "下载多个对象",
+            id : "7"
         }])
         lv.on("click", function(ele, obj, curEle) {
             //直接根据标题来执行同名函数
@@ -102,7 +106,7 @@
         function downloadFile(){
             uexDownloaderMgr.download(downloader, 
                 "http://newdocx.appcan.cn/images/u11.png", 
-                "wgt://data/down/a.apk", 
+                "wgt://data/down/a.png", 
                 1,
                 function(fileSize, percent, status){
                   switch (status) {
@@ -142,6 +146,67 @@
         function cancelDownload() {
             var path = "http://newdocx.appcan.cn/images/u11.png";
             alert("cancelDownload:" + uexDownloaderMgr.cancelDownload(path, 0));
+        }
+        
+        
+        var downloader1 = null;
+        var downloader2 = null;
+        function downloads(){
+            downloader1 = uexDownloaderMgr.create();
+            downloader2 = uexDownloaderMgr.create();
+            if(!downloader1){
+                alert("对象一创建失败!");
+            }else{
+                alert("对象一创建成功");
+            }
+            if(!downloader2){
+                alert("对象二创建失败!");
+            }else{
+                alert("对象二创建成功");
+            }
+            var headJson = JSON.stringify({
+              myHeader:"myHeaderValue"
+            });
+            uexDownloaderMgr.setHeaders(downloader1, headJson);
+            uexDownloaderMgr.setHeaders(downloader2, headJson);
+            uexDownloaderMgr.download(downloader1, 
+                "http://newdocx.appcan.cn/images/u11.png", 
+                "wgt://data/down/b.png", 
+                1,
+                function(fileSize, percent, status){
+                  switch (status) {
+                      case 0:
+                      //document.getElementById('percentage').innerHTML = "文件大小：" + fileSize + "字节<br>下载进度：" + percent;
+                      return;
+                      break;
+                      case 1:
+                      alert("对象一下载完成");
+                      break;
+                      case 2:
+                      alert("对象一下载失败");
+                      break;
+                  }
+                  uexDownloaderMgr.closeDownloader(downloader1)
+              });
+              uexDownloaderMgr.download(downloader2, 
+                "http://newdocx.appcan.cn/images/u11.png", 
+                "wgt://data/down/c.png", 
+                1,
+                function(fileSize, percent, status){
+                  switch (status) {
+                      case 0:
+                      //document.getElementById('percentage').innerHTML = "文件大小：" + fileSize + "字节<br>下载进度：" + percent;
+                      return;
+                      break;
+                      case 1:
+                      alert("对象二下载完成");
+                      break;
+                      case 2:
+                      alert("对象二下载失败");
+                      break;
+                  }
+                  uexDownloaderMgr.closeDownloader(downloader2)
+              });
         }
 
     </script>

@@ -82,6 +82,10 @@
             title : "closeUploader",
             subTitle : "关闭上传对象",
             id : "4"
+        }, {
+            title : "Uploaders",
+            subTitle : "上传多个对象",
+            id : "5"
         }])
         lv.on("click", function(ele, obj, curEle) {
             //直接根据标题来执行同名函数
@@ -91,7 +95,7 @@
         var uploader=null;
         function createUploader() {
             uploader = uexUploaderMgr.create({
-              url: "http://192.168.1.4:45678/post",
+              url: "http://te.3g2win.com/pidginimg/upload.php",
               type: 1
             });
             if (!uploader) {
@@ -108,6 +112,7 @@
             uexUploaderMgr.setHeaders(uploader, headJson);
             alert("setHeaders:" + uexUploaderMgr.setHeaders(uploader, headJson));
         }
+
 
         function uploadFile() {
             uexUploaderMgr.uploadFile(uploader,
@@ -135,6 +140,75 @@
         function closeUploader() {
             var ret = uexUploaderMgr.closeUploader(uploader);
             alert(ret);
+        }
+        
+        
+        var uploader1=null;
+        var uploader2=null;
+        function Uploaders(){//http://192.168.1.4:45678/post
+            uploader1 = uexUploaderMgr.create({
+              url: "http://te.3g2win.com/pidginimg/upload.php",
+              type: 1
+            });
+            uploader2 = uexUploaderMgr.create({
+              url: "http://te.3g2win.com/pidginimg/upload.php",
+              type: 1
+            });
+            if (!uploader1) {
+              alert("创建对象一失败!")
+            }else{
+                alert("创建对象一成功");
+            }
+            if (!uploader2) {
+              alert("创建对象二失败!")
+            }else{
+                alert("创建对象二成功");
+            }
+            var headJson = JSON.stringify({
+              myHeaderKey:"myHeaderValue"
+            });
+            uexUploaderMgr.setHeaders(uploader1, headJson);
+            uexUploaderMgr.setHeaders(uploader2, headJson);
+            uexUploaderMgr.uploadFile(uploader1,
+              "res://bb.png",
+              "myImage",
+              1,
+              "400",
+              function(fileSize,percent,response,status){
+                switch (status) {
+                  case 0:
+                  //document.getElementById('percentage').innerHTML = "packageSize："+fileSize+"<br>progress："+percent+"%";
+                  return;
+                  case 1:
+                  alert("upload SUCCESS!");
+                  alert(response);
+                  break;
+                  case 2:
+                  alert("upload FAILED!");
+                  break;        
+                  uexUploaderMgr.closeUploader(uploader1);
+                }
+              });
+              uexUploaderMgr.uploadFile(uploader2,
+              "res://cc.png",
+              "myImage",
+              1,
+              "400",
+              function(fileSize,percent,response,status){
+                switch (status) {
+                  case 0:
+                  //document.getElementById('percentage').innerHTML = "packageSize："+fileSize+"<br>progress："+percent+"%";
+                  return;
+                  case 1:
+                  alert("upload SUCCESS!");
+                  alert(response);
+                  break;
+                  case 2:
+                  alert("upload FAILED!");
+                  break;        
+                  uexUploaderMgr.closeUploader(uploader2);
+                }
+              });
         }
 
 

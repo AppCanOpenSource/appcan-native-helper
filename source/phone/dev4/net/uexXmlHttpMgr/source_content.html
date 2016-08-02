@@ -36,11 +36,17 @@
 
         </div>
         <pre><code data-language="javascript">function xmlHttpPost() {
+
     var url = "http://139.224.11.153:45678/post";
     var req = uexXmlHttpMgr.create({
         method : "POST",
         url : url
     });
+    if(!req){
+        alert("创建请求失败！");
+    }else{
+        alert("创建POST请求成功！");
+    }
     var v1 = "dfdsfdsdfsd";
     var v2 = "fdsfdfsfsdf";
     uexXmlHttpMgr.setPostData(req, "0", "field", v1);
@@ -63,6 +69,11 @@ function xmlHttpGet() {
         method : "GET",
         url : url
     });
+    if(!req){
+        alert("创建请求失败！");
+    }else{
+        alert("创建GET请求成功！");
+    }
     uexXmlHttpMgr.setAppVerify(req, 1);
     var headers = {
         myhead : "zzzzzz"
@@ -75,8 +86,18 @@ function xmlHttpGet() {
 }
 
 getCookie = function() {
+    //alert('getCookie');
+    // var result = uexXmlHttpMgr.getCookie("http://192.168.1.57");
     var result = uexXmlHttpMgr.getCookie("http://139.224.11.153:45678");
+    //alert(result);
     $('#adre3').html("<div class='w'>" + "<span>获取的cookie：</span>" + result + "</div>");
+}
+
+function test(){
+    var get1 = xmlHttpGet()
+    var get2 = xmlHttpGet()
+    var post1 = xmlHttpPost()
+    var post2 = xmlHttpPost()
 }</code></pre>
     </body>
     <!-- <script src="http://apps.bdimg.com/libs/jquery/2.1.1/jquery.min.js"></script> -->
