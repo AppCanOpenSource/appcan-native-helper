@@ -71,10 +71,6 @@
             title : "transaction",
             subTitle : "事务的执行",
             id : "4"
-        }, {
-            title : "close",
-            subTitle : "关闭数据库",
-            id : "5"
         }])
         lv.on("click", function(ele, obj, curEle) {
             switch(obj.id) {
@@ -82,9 +78,8 @@
                 createDB();
                 // deleteTable();
                 break;
-            case "2":
+            case "2":                 
                 createTable();
-                insertData();
                 break;
             case "3":
                 selectData();
@@ -92,11 +87,6 @@
             case "4":
                 transaction();
                 break;
-            case "5":
-                close()
-                break;
-            case "6":
-                appcan.window.open("uexDataBaseMgr", "uexDataBaseMgr.html", 10)
             }
         })
         var cText = 0;
@@ -106,53 +96,62 @@
         var db;
         function createDB() {
             db = uexDataBaseMgr.open("uexDB");
-            alert(db != null);
-        }
-
-        function createTable() {
+            alert(db != null);            
             var sql = "CREATE TABLE IF NOT EXISTS testTable (_id  INTEGER PRIMARY KEY,name TEXT)";
             uexDataBaseMgr.sql(db, sql, function(error) {
                 if (!error) {
-                    alert('创建数据库成功')
+                    uexDataBaseMgr.sql(db, "INSERT INTO testTable (name) VALUES ('这是测试数据1')", function(error) {});
+                    uexDataBaseMgr.sql(db, "INSERT INTO testTable (name) VALUES ('这是测试数据2')", function(error) {});
                 }
             });
+            close();
         }
 
-        function insertData() {
-            uexDataBaseMgr.sql(db, "INSERT INTO testTable (name) VALUES ('这是测试')", function(error) {
-                if (!error) {
-                    alert('插入数据成功')
-                }
-            });
+        function createTable() {
+            appcan.window.open("sql", "sql.html", 10, 4, 0, 0, 0, 200);
         }
-
-
         function selectData() {
+            db = uexDataBaseMgr.open("uexDB");
             var sql = "SELECT * FROM testTable";
             uexDataBaseMgr.select(db, sql, function(error, data) {
                 if (error) {
                     alert('执行失败');
                 } else {
                     alert('data:' + JSON.stringify(data));
+                    close();
                 }
             });
         }
 
         function transaction() {
+            db = uexDataBaseMgr.open("uexDB");
             uexDataBaseMgr.transactionEx(db, inFunc, function(error) {
                 if (!error) {
-                    alert("删除_id为1数据成功");
-                }
+                    alert('事务处理成功');
+                    var sql = "SELECT * FROM testTable";
+                    uexDataBaseMgr.select(db, sql, function(error, data) {
+                        if (error) {
+                            alert('执行失败');
+                        } else {
+                            alert('data:' + JSON.stringify(data));
+                            close();
+                        }
+                    });
+                }else{
+                    alert('事务处理失败');
+                }                
             });
         }
 
         function inFunc() {
             uexDataBaseMgr.sql(db, "DELETE FROM testTable WHERE _id = 1");
+            uexDataBaseMgr.sql(db, "UPDATE testTable SET name = '这是测试事务更改' WHERE _id = 2");
+            uexDataBaseMgr.sql(db, "INSERT INTO testTable (name) VALUES ('这是测试事务插入')");
         }
 
         function close() {
             var result = uexDataBaseMgr.close(db);
-            alert("close result:" + result);
+            // alert("close result:" + result);
         }
 
         // function deleteTable() {

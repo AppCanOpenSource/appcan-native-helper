@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html class="um landscape min-width-240px min-width-320px min-width-480px min-width-768px min-width-1024px">
+    <head>
+        <title></title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <link rel="stylesheet" href="../../../css/fonts/font-awesome.min.css">
+        <link rel="stylesheet" href="../../../css/ui-box.css">
+        <link rel="stylesheet" href="../../../css/ui-base.css">
+        <link rel="stylesheet" href="../../../css/ui-color.css">
+        <link rel="stylesheet" href="../../../css/appcan.icon.css">
+        <link rel="stylesheet" href="../../../css/appcan.control.css">
+        <link rel="stylesheet" href="../../../css/my.css">
+    </head>
+    <body class="um-vp bc-bg" ontouchstart>
+        <!-- <div id="dot">
+            <img src="../../../css/res/common/btn-act.png"/>
+            <div class="menu ub">
+                <div class="play ub-f1">
+                    演示
+                </div><div class="line lineone"></div>
+                <div class="source ub-f1">
+                    源码
+                </div><div class="line linetwo"></div>
+                <div class="return ub-f1">
+                    返回
+                </div>
+                <div class="triangle-blue"></div>
+            </div>
+        </div> -->
+        <div id="listview"  class="ubt bc-border sc-bg"></div>
+    </body>
+
+    <script src="../../../js/jquery.1.7.2.min.js"></script>
+    <script src="../../../js/jquery.event.ue.js.js"></script>
+    <script src="../../../js/jquery.udraggable.js"></script>
+    <script>
+        var jq = $.noConflict();
+    </script>
+    <script src="../../../js/appcan.js"></script>
+    <script src="../../../js/appcan.control.js"></script>
+    <script src="../../../js/appcan.listview.js"></script>
+    <script src="../../../js/my.js"></script>
+    </body>
+    <script>
+        appcan.ready(function() {
+            appcan.locStorage.remove("index");            
+            db = uexDataBaseMgr.open("uexDB");
+            var sql = "CREATE TABLE IF NOT EXISTS testTable1 (_id  INTEGER PRIMARY KEY,name TEXT)";
+            uexDataBaseMgr.sql(db, sql, function(error) {
+                if (!error) {
+                    uexDataBaseMgr.sql(db, "INSERT INTO testTable1 (name) VALUES ('这是测试数据1')", function(error) {});
+                    uexDataBaseMgr.sql(db, "INSERT INTO testTable1 (name) VALUES ('这是测试数据2')", function(error) {});
+                }
+            });
+        });
+
+        var lv = appcan.listview({
+            selector : "#listview",
+            type : "thinLine",
+            hasIcon : false,
+            hasAngle : true,
+            hasSubTitle : true,
+            multiLine : 1,
+        });
+        lv.set([{
+            title : "insert",
+            subTitle : "Sql语句的插入",
+            id : "1"
+        }, {
+            title : "delete",
+            subTitle : "Sql语句的删除",
+            id : "2"
+        }, {
+            title : "update",
+            subTitle : "Sql语句的修改",
+            id : "3"
+        }, {
+            title : "select",
+            subTitle : "Sql语句的查询",
+            id : "4"
+        }])
+        lv.on("click", function(ele, obj, curEle) {
+            switch(obj.id) {
+            case "1":
+                insertData();
+                break;
+            case "2":
+                deleteData();
+                break;
+            case "3":
+                updatetData();
+                break;
+            case "4":
+                selectData();
+                break;
+            }
+        })
+        var cText = 0;
+        var cJson = 1;
+        var cInt = 2;
+
+        var db;
+        function insertData() {
+            uexDataBaseMgr.sql(db, "INSERT INTO testTable1 (name) VALUES ('这是测试插入')", function(error) {
+                if (!error) {
+                    alert('插入数据成功')
+                }
+            });
+        }
+        
+        function deleteData() {
+            uexDataBaseMgr.sql(db, "DELETE FROM testTable1 WHERE _id = 1", function(error) {
+                if (!error) {
+                    alert('删除id为1的数据成功')
+                }
+            });
+        }
+        
+        function updatetData() {
+            uexDataBaseMgr.sql(db, "UPDATE testTable1 SET name = '这是测试更改' WHERE _id = 2", function(error) {
+                if (!error) {
+                    alert('修改id为2的数据成功')
+                }
+            });
+        }
+
+        function selectData() {
+            var sql = "SELECT * FROM testTable1";
+            uexDataBaseMgr.select(db, sql, function(error, data) {
+                if (error) {
+                    alert('执行失败');
+                } else {
+                    alert('data:' + JSON.stringify(data));
+                }
+            });
+        }
+
+    </script>
+</html>
