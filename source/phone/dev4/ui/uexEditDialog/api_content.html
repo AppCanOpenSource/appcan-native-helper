@@ -11,6 +11,9 @@
         <link rel="stylesheet" href="../../../css/appcan.icon.css">
         <link rel="stylesheet" href="../../../css/appcan.control.css">
         <link rel="stylesheet" href="../../../css/my.css">
+        <style type="text/css">
+            #percentage{background-color: #fff;}
+        </style>
     </head>
     <body class="um-vp bc-bg" ontouchstart>
         <div id="dot">
@@ -29,7 +32,11 @@
             </div>
         </div>
         <div id="listview"  class="ubt bc-border sc-bg"></div>
+        <br>
+    
+            
 
+        
     </body>
 
     <script src="../../../js/jquery.1.7.2.min.js"></script>
@@ -45,7 +52,6 @@
     </body>
     <script>
         appcan.ready(function() {
-            appcan.locStorage.remove("index");
         });
 
         var lv = appcan.listview({
@@ -57,82 +63,70 @@
             multiLine : 1,
         });
         lv.set([{
-            title : "open1",
-            subTitle : "创建纯数字键盘,不可切换",
+            title : "createDialog",
+            subTitle : "打开",
             id : "1"
         }, {
-            title : "open2",
-            subTitle : "创建数字、字母、符号可切换键盘",
+            title : "insertData",
+            subTitle : "插入数据",
             id : "2"
         }, {
-            title : "close",
-            subTitle : "销毁带安全键盘的输入框",
+            title : "cleanAll",
+            subTitle : "清除所有数据",
             id : "3"
         }, {
             title : "getContent",
-            subTitle : "获取输入框中的内容",
+            subTitle : "获取所有数据",
             id : "4"
+        }, {
+            title : "closeDialog",
+            subTitle : "关闭",
+            id : "5"
         }])
         lv.on("click", function(ele, obj, curEle) {
-            switch(obj.id) {
-            case "1":
-                open1();
-                break;
-            case "2":
-                open2();
-                break;
-            case "3":
-                closeSecurityKeyboard();
-                break;
-            case "4":
-                getContent();
-                break;
-            }
+            //直接根据标题来执行同名函数
+            var name = obj.title;
+            eval(name + "()");
         })
-        // var commonCallback = function(data) {
-        // alert("commonCallBack:" + JSON.stringify(data));
-        // };
-        var divTop = document.getElementById("listview").offsetHeight + 200;
-        var securityKeyboard=null; 
-        function open1() {
-            uexSecurityKeyboard.close();
-            var params = {
-                // id : "1",
-                x : 0,
-                y : divTop,
-                width : 800,
-                height : 150,
-                keyboardType : 0,
-                keyboardDescription : "正益移动安全输入"
-            };
-            var data = JSON.stringify(params);
-            securityKeyboard =uexSecurityKeyboard.open(data);
+        
+        
+    var editId="1";
+    function createDialog(){
+        var data = {
+            //"id": editId,
+            "x": 30,
+            "y":150,
+            "width": 500,
+            "height": 100,
+            "fontSize": 18,
+            "fontColor": "#666",
+            "inputType": 0,
+            "inputHint": "提示文字",
+            "defaultText": "默认显示文字",
+            "maxNum": 140
         }
+        editId = uexEditDialog.create(JSON.stringify(data));
+    }
 
-        function open2() {
-            uexSecurityKeyboard.close();
-            var params = {
-                // id : "2",
-                x : 0,
-                y : divTop,
-                width : 800,
-                height : 150,
-                keyboardType : 1,
-                keyboardDescription : "正益移动安全输入"
-            };
-            var data = JSON.stringify(params);
-            securityKeyboard =uexSecurityKeyboard.open(data);
+    function insertData(){
+        var data=uexEditDialog.insert(editId,"这是插入数据");
+        alert("insert: "+data);
+    }
 
-        }
+    function cleanAll(){
+        var data=uexEditDialog.cleanAll(editId);
+        alert("cleanAll: "+data);
+    }
 
-        function closeSecurityKeyboard() {
-            uexSecurityKeyboard.close();
-        }
+    function getContent(){
+        var data = uexEditDialog.getContent(editId);
+        alert("getContent data:" + data);
+    }
+    function closeDialog(){
+        var data=uexEditDialog.close(editId);
+        alert("closeDialog: "+data);
+    }
 
-        function getContent() {
-            var info = uexSecurityKeyboard.getData(securityKeyboard);
-            alert(JSON.stringify(info));
-        }
 
     </script>
 </html>

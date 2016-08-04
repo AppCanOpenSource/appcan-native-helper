@@ -36,10 +36,11 @@
 
         </div>
         <pre><code data-language="javascript">
-            appcan.ready(function() {
-            uexScrollPicture.onPicItemClick = function(data) {
-                alert(data);
-            }
+                    appcan.ready(function() {
+            appcan.locStorage.remove("index");
+            uexCoverFlow2.onItemSelected = function(coverFlow, index){
+              alert("coverFlow:" + coverFlow + "index:" + index)
+             }
         });
 
         var lv = appcan.listview({
@@ -51,75 +52,43 @@
             multiLine : 1,
         });
         lv.set([{
-            title : "createNewScrollPicture",
-            subTitle : "新建轮播图",
+            title : "open",
+            subTitle : "打开3D图片轮播",
             id : "1"
         }, {
-            title : "startAutoScroll",
-            subTitle : "开始图片轮播",
+            title : "close",
+            subTitle : "关闭3D图片轮播",
             id : "2"
-        }, {
-            title : "stopAutoScroll",
-            subTitle : "停止图片轮播",
-            id : "3"
-        }, {
-            title : "removeView",
-            subTitle : "删除view",
-            id : "4"
         }])
         lv.on("click", function(ele, obj, curEle) {
             switch(obj.id) {
             case "1":
-                createNewScrollPicture();
+                open();
                 break;
+
             case "2":
-                startAutoScroll();
+                close();
                 break;
-            case "3":
-                stopAutoScroll();
-                break;
-            case "4":
-                removeView();
-                break;
-            }
         })
-        var view1
-        function createNewScrollPicture() {
-            var param = {
-                interval : 2000,
-                anchor : ["0", "300"],
-                height : 100,
-                width : 200,
-                urls : ["res://1-1.jpg", "res://1-2.jpg", "res://1-3.jpg", "res://1-4.jpg"],
-                // viewId : 1
-            };
-            view1=uexScrollPicture.createNewScrollPicture(JSON.stringify(param));
-            if(!view1){
-                alert("创建轮播图失败");
-            }
+        var coverFlow=null;
+        function open() {
+            var params = {                                    
+                  "x": 0,
+                  "y": 150,
+                  "width":screen.availWidth,
+                  "height":200,
+                  "isScrollWithWeb":true,
+                  "placeholderImage":"res://1-1.jpg",
+                  "imageUrl":["http://img3.duitang.com/uploads/item/201411/08/20141108002929_dV5Ba.thumb.700_0.jpeg","http://82238.com/uploads/allimg/110519/2-110519130404.jpg","http://www.qqhead.com/UploadFiles/2010-04/2010458740103062.gif","http://a4.att.hudong.com/06/63/01300001216886130487639263274.jpg"]
+              };
+              coverFlow = uexCoverFlow2.create(params);
+
         }
 
-        function startAutoScroll() {
-            var param = {
-                viewId : view1
-            };
-            uexScrollPicture.startAutoScroll(JSON.stringify(param));
+        function close() {
+            uexCoverFlow2.close(coverFlow);
         }
-
-        function stopAutoScroll() {
-            var param = {
-                viewId : view1
-            };
-            uexScrollPicture.stopAutoScroll(JSON.stringify(param));
-        }
-
-        function removeView() {
-            var param = {
-                viewId : view1
-            };
-            uexScrollPicture.removeView(JSON.stringify(param));
-        }
-          </code></pre>
+                        </code></pre>
     </body>
     <!-- <script src="http://apps.bdimg.com/libs/jquery/2.1.1/jquery.min.js"></script> -->
     <script src="../../../js/jquery.1.7.2.min.js"></script>

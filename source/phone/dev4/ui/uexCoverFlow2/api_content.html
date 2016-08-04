@@ -46,6 +46,9 @@
     <script>
         appcan.ready(function() {
             appcan.locStorage.remove("index");
+            uexCoverFlow2.onItemSelected = function(coverFlow, index){
+              alert("coverFlow:" + coverFlow + "index:" + index)
+             }
         });
 
         var lv = appcan.listview({
@@ -57,82 +60,44 @@
             multiLine : 1,
         });
         lv.set([{
-            title : "open1",
-            subTitle : "创建纯数字键盘,不可切换",
+            title : "open",
+            subTitle : "打开3D图片轮播",
             id : "1"
         }, {
-            title : "open2",
-            subTitle : "创建数字、字母、符号可切换键盘",
-            id : "2"
-        }, {
             title : "close",
-            subTitle : "销毁带安全键盘的输入框",
-            id : "3"
-        }, {
-            title : "getContent",
-            subTitle : "获取输入框中的内容",
-            id : "4"
+            subTitle : "关闭3D图片轮播",
+            id : "2"
         }])
         lv.on("click", function(ele, obj, curEle) {
             switch(obj.id) {
-            case "1":
-                open1();
-                break;
-            case "2":
-                open2();
-                break;
-            case "3":
-                closeSecurityKeyboard();
-                break;
-            case "4":
-                getContent();
-                break;
+                case "1":
+                    open();
+                    break;
+    
+                case "2":
+                    close();
+                    break;
             }
         })
-        // var commonCallback = function(data) {
-        // alert("commonCallBack:" + JSON.stringify(data));
-        // };
-        var divTop = document.getElementById("listview").offsetHeight + 200;
-        var securityKeyboard=null; 
-        function open1() {
-            uexSecurityKeyboard.close();
-            var params = {
-                // id : "1",
-                x : 0,
-                y : divTop,
-                width : 800,
-                height : 150,
-                keyboardType : 0,
-                keyboardDescription : "正益移动安全输入"
-            };
-            var data = JSON.stringify(params);
-            securityKeyboard =uexSecurityKeyboard.open(data);
-        }
-
-        function open2() {
-            uexSecurityKeyboard.close();
-            var params = {
-                // id : "2",
-                x : 0,
-                y : divTop,
-                width : 800,
-                height : 150,
-                keyboardType : 1,
-                keyboardDescription : "正益移动安全输入"
-            };
-            var data = JSON.stringify(params);
-            securityKeyboard =uexSecurityKeyboard.open(data);
+        var coverFlow=null;
+        function open() {
+            var params = {                                    
+                  "x": 0,
+                  "y": 250,
+                  "width":screen.availWidth,
+                  "height":500,
+                  "isScrollWithWeb":true,
+                  "placeholderImage":"res://1-1.jpg",
+                  "imageUrl":["http://img3.duitang.com/uploads/item/201411/08/20141108002929_dV5Ba.thumb.700_0.jpeg","http://picm.photophoto.cn/006/018/030/0180300367.jpg","http://a4.att.hudong.com/06/63/01300001216886130487639263274.jpg"]
+              };
+              coverFlow = uexCoverFlow2.create(params);
 
         }
 
-        function closeSecurityKeyboard() {
-            uexSecurityKeyboard.close();
+        function close() {
+            uexCoverFlow2.close(coverFlow);
         }
 
-        function getContent() {
-            var info = uexSecurityKeyboard.getData(securityKeyboard);
-            alert(JSON.stringify(info));
-        }
 
     </script>
 </html>

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html class="um landscape min-width-240px min-width-320px min-width-480px min-width-768px min-width-1024px">
+    <head>
+        <title></title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <link rel="stylesheet" href="../../../css/fonts/font-awesome.min.css">
+        <link rel="stylesheet" href="../../../css/ui-box.css">
+        <link rel="stylesheet" href="../../../css/ui-base.css">
+        <link rel="stylesheet" href="../../../css/ui-color.css">
+        <link rel="stylesheet" href="../../../css/appcan.icon.css">
+        <link rel="stylesheet" href="../../../css/appcan.control.css">
+        <link rel="stylesheet" href="../../../css/my.css">
+    </head>
+    <body class="um-vp bc-bg" ontouchstart>
+        <div id="dot">
+            <img src="../../../css/res/common/btn-act.png"/>
+            <div class="menu ub">
+                <div class="play ub-f1">
+                    演示
+                </div><div class="line lineone"></div>
+                <div class="source ub-f1">
+                    源码
+                </div><div class="line linetwo"></div>
+                <div class="return ub-f1">
+                    返回
+                </div>
+                <div class="triangle-blue"></div>
+            </div>
+        </div>
+        <div id="listview"  class="ubt bc-border sc-bg"></div>
+    </body>
+
+    <script src="../../../js/jquery.1.7.2.min.js"></script>
+    <script src="../../../js/jquery.event.ue.js.js"></script>
+    <script src="../../../js/jquery.udraggable.js"></script>
+    <script>
+        var jq = $.noConflict();
+    </script>
+    <script src="../../../js/appcan.js"></script>
+    <script src="../../../js/appcan.control.js"></script>
+    <script src="../../../js/appcan.listview.js"></script>
+    <script src="../../../js/my.js"></script>
+    </body>
+    <script>
+       appcan.ready(function() {
+            if(uexWidgetOne.platformName == "iOS"){
+                var params = {
+                    APIKey:"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"
+                };
+                var data = JSON.stringify(params);
+                uexCamera360.setAPIKey(data);
+            }
+        });
+
+        var lv = appcan.listview({
+            selector : "#listview",
+            type : "thinLine",
+            hasIcon : false,
+            hasAngle : true,
+            hasSubTitle : true,
+            multiLine : 1,
+        });
+        lv.set([{
+            title : "edit1",
+            subTitle : "编辑浏览器图片",
+            id : "1"
+        },{
+            title : "edit2",
+            subTitle : "编辑固定图片",
+            id : "2"
+        }])
+
+        lv.on("click", function(ele, obj, curEle) {
+            var name = obj.title;
+            eval(name + "()");
+        })
+        function edit1() {
+            var params = {
+                imgSrcPath:"",//要编辑的图片源地址,不传或传空时,打开系统图库
+                isSaveToGallery:false,//编辑后的图片是否保存到相册
+                imgSavePath:"wgt://"//编辑后的图片存储路径
+            };
+            var data = JSON.stringify(params);
+            var req=uexCamera360.edit(data, function(data){
+                alert("cbEditFun:" + JSON.stringify(data));
+            });
+            if(!req){
+                alert("打开浏览器图片失败");
+            }else{                
+                alert("打开浏览器图片成功");
+            }
+        }
+        
+        function edit2() {
+            var params = {
+                imgSrcPath:"res://bgImage.jpg",//要编辑的图片源地址,不传或传空时,打开系统图库
+                isSaveToGallery:true,//编辑后的图片是否保存到相册
+                imgSavePath:"wgt://"//编辑后的图片存储路径
+            };
+            var data = JSON.stringify(params);
+            var req=uexCamera360.edit(data, function(data){
+                alert("cbEditFun:" + JSON.stringify(data));
+            });
+            if(!req){
+                alert("打开固定图片失败");
+            }else{                
+                alert("打开固定图片成功");
+            }
+        }
+
+    </script>
+</html>
